@@ -1,11 +1,12 @@
+#!/usr/bin/env python3.9
 """
 A simple app to create a JWT token.
 """
 import os
-import logging
 import datetime
-import functools
 import jwt
+import logging 
+import functools
 
 # pylint: disable=import-error
 from flask import Flask, jsonify, request, abort
@@ -75,11 +76,12 @@ def auth():
     if not password:
         LOG.error("No password provided")
         return jsonify({"message": "Missing parameter: password"}, 400)
+    
     body = {'email': email, 'password': password}
 
     user_data = body
 
-    return jsonify(token=_get_jwt(user_data).decode('utf-8'))
+    return jsonify(token=_get_jwt(user_data).decode('utf-8'))#.decode('utf-8')
 
 
 @APP.route('/contents', methods=['GET'])
