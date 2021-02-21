@@ -31,6 +31,9 @@ phases:
   build:
     commands:
       - docker build --tag $REPOSITORY_URI:$TAG .
+    env:
+      parameter-store:
+        JWT_SECRET: JWT_SECRET
 
   post_build:
     commands:
@@ -38,8 +41,6 @@ phases:
       - aws eks update-kubeconfig --name $EKS_CLUSTER_NAME --role-arn $EKS_KUBECTL_ROLE_ARN
       - kubectl apply -f simple_jwt_api.yml 
       - printf '[{"name":"simple_jwt_api","imageUri":"%s"}]' $REPOSITORY_URI:$TAG > build.json
-  env:
-    parameter-store:
-      JWT_SECRET: JWT_SECRET
+
 artifacts:
   files: build.json
